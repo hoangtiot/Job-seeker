@@ -8,5 +8,4 @@ import com.hoangdh.model.Job;
 @Repository
 public interface JobSeekerRepository extends JpaRepository<Job, String>{
 	
-
 }
