@@ -27,16 +27,50 @@ public class ApplicantController {
 		return applicantRepository.findAll();
 	}
 	
-	@GetMapping("/applicant")
+	@GetMapping("/applicant/{id}")
 	public ResponseEntity<Applicant> getApplicantById(@PathVariable(value = "id") String applicantId) throws Exception{
 		Applicant applicant = applicantRepository.findById(applicantId)
 		          .orElseThrow(() -> new Exception("Applicant not found for this id :: " + applicantId));
 		        return ResponseEntity.ok().body(applicant);
 	}
 	
-	@RequestMapping(value = "/applicant/addApplicant", method = RequestMethod.POST)
+	@RequestMapping(value = "/applicant/add", method = RequestMethod.POST)
 	public ResponseEntity<Applicant> addApplicant(@RequestBody Applicant applicant){
-		Applicant result = applicantRepository.save(applicant);
+		Applicant applicantCheck = applicantRepository.getOne(applicant.getId());
+		if(applicantCheck == null) {
+			return ResponseEntity.notFound().build();
+		}
+		applicantRepository.save(applicant);
+		return ResponseEntity.ok().body(applicant);
+	}
+	
+	@RequestMapping(value = "/applicant/update/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Applicant> updateApplicant(@PathVariable(value = "id") String id, @RequestBody Applicant applicant){
+		Applicant result = applicantRepository.getOne(id);
+		if(result == null) {
+			return ResponseEntity.notFound().build();
+		}
+		result = applicant;
+		applicantRepository.save(result);
 		return ResponseEntity.ok().body(result);
+	}
+	
+	@RequestMapping(value = "/applicant/delete/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Applicant> deleteApplicant(@PathVariable(value = "id") String id){
+		Applicant result = applicantRepository.getOne(id);
+		if(result == null) {
+			return ResponseEntity.notFound().build();
+		}
+		applicantRepository.delete(result);
+		return ResponseEntity.ok().body(result);
+	}
+	
+	@GetMapping("/login")
+	public ResponseEntity<Applicant> login(@RequestBody Applicant loginData) throws Exception{
+		Applicant applicant = applicantRepository.getOne(loginData.getId());
+		if (!applicant.getPassword().equalsIgnoreCase(loginData.getPassword())) {
+			return ResponseEntity.notFound().build();
+		}         
+		return ResponseEntity.ok().body(applicant);
 	}
 }
