@@ -27,7 +27,7 @@ public class IndustryController {
 	}
 	
 	@GetMapping("/industry/{id}")
-	public ResponseEntity<Industry> getIndustryById(@PathVariable(value = "id") String industryId) throws Exception{
+	public ResponseEntity<Industry> getIndustryById(@PathVariable(value = "id") int industryId) throws Exception{
 		Industry industry = industryRepository.findById(industryId)
 		          .orElseThrow(() -> new Exception("Industry not found for this id :: " + industryId));
 		        return ResponseEntity.ok().body(industry);
@@ -44,7 +44,7 @@ public class IndustryController {
 	}
 	
 	@RequestMapping(value = "/industry/update/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Industry> updateIndustry(@PathVariable(value = "id") String id, @RequestBody Industry Industry){
+	public ResponseEntity<Industry> updateIndustry(@PathVariable(value = "id") int id, @RequestBody Industry Industry){
 		Industry result = industryRepository.getOne(id);
 		if(result == null) {
 			return ResponseEntity.notFound().build();
@@ -55,7 +55,7 @@ public class IndustryController {
 	}
 	
 	@RequestMapping(value = "/industry/delete/{id}",method = RequestMethod.DELETE)
-	public ResponseEntity<Industry> deleteIndustry(@PathVariable(value = "id") String id){
+	public ResponseEntity<Industry> deleteIndustry(@PathVariable(value = "id") int id){
 		Industry result = industryRepository.getOne(id);
 		if(result == null) {
 			return ResponseEntity.notFound().build();

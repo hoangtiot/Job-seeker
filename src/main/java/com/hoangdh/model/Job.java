@@ -10,12 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "job")
+@Table(name = "Job")
 public class Job implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private String id;
+	private int id;
 	
 	private String jobTitle;
 	
@@ -31,11 +31,11 @@ public class Job implements Serializable{
 	
 	private String qualifications;
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

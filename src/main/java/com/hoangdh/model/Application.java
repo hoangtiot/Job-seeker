@@ -9,19 +9,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "CompanyInSemester")
-public class CompanyInSemester implements Serializable{
-	
+@Table(name = "Application")
+public class Application implements Serializable {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-		
+	
+	private int status;
+	
 }

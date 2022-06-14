@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.hoangdh.model.JobCategory;
 
 @Repository
-public interface JobCategoryRepository extends JpaRepository<JobCategory, String>{
+public interface JobCategoryRepository extends JpaRepository<JobCategory, Integer>{
 
 }

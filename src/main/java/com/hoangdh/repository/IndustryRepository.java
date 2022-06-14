@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.hoangdh.model.Industry;
 
 @Repository
-public interface IndustryRepository extends JpaRepository<Industry, String>{
+public interface IndustryRepository extends JpaRepository<Industry, Integer>{
 
 }

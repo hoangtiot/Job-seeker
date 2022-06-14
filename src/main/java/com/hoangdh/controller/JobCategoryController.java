@@ -27,7 +27,7 @@ public class JobCategoryController {
 	}
 	
 	@GetMapping("/jobCategory")
-	public ResponseEntity<JobCategory> getJobCategoryById(@PathVariable(value = "id") String jobCategoryId) throws Exception{
+	public ResponseEntity<JobCategory> getJobCategoryById(@PathVariable(value = "id") int jobCategoryId) throws Exception{
 		JobCategory jobCategory = jobCategoryRepository.findById(jobCategoryId)
 		          .orElseThrow(() -> new Exception("JobCategory not found for this id :: " + jobCategoryId));
 		        return ResponseEntity.ok().body(jobCategory);
@@ -44,7 +44,7 @@ public class JobCategoryController {
 	}
 	
 	@RequestMapping(value = "/jobCategory/update/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<JobCategory> updateJobCategory(@PathVariable(value = "id") String id, @RequestBody JobCategory JobCategory){
+	public ResponseEntity<JobCategory> updateJobCategory(@PathVariable(value = "id") int id, @RequestBody JobCategory JobCategory){
 		JobCategory result = jobCategoryRepository.getOne(id);
 		if(result == null) {
 			return ResponseEntity.notFound().build();
@@ -55,7 +55,7 @@ public class JobCategoryController {
 	}
 	
 	@RequestMapping(value = "/jobCategory/delete/{id}",method = RequestMethod.DELETE)
-	public ResponseEntity<JobCategory> deleteJobCategory(@PathVariable(value = "id") String id){
+	public ResponseEntity<JobCategory> deleteJobCategory(@PathVariable(value = "id") int id){
 		JobCategory result = jobCategoryRepository.getOne(id);
 		if(result == null) {
 			return ResponseEntity.notFound().build();

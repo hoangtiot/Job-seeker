@@ -27,7 +27,7 @@ public class CompanyController {
 	}
 	
 	@GetMapping("/company")
-	public ResponseEntity<Company> getCompanyById(@PathVariable(value = "id") String companyId) throws Exception{
+	public ResponseEntity<Company> getCompanyById(@PathVariable(value = "id") int companyId) throws Exception{
 		Company Company = companyRepository.findById(companyId)
 		          .orElseThrow(() -> new Exception("Company not found for this id :: " + companyId));
 		        return ResponseEntity.ok().body(Company);
@@ -44,7 +44,7 @@ public class CompanyController {
 	}
 	
 	@RequestMapping(value = "/company/update/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Company> updateCompany(@PathVariable(value = "id") String id, @RequestBody Company company){
+	public ResponseEntity<Company> updateCompany(@PathVariable(value = "id") int id, @RequestBody Company company){
 		Company result = companyRepository.getOne(id);
 		if(result == null) {
 			return ResponseEntity.notFound().build();
@@ -55,7 +55,7 @@ public class CompanyController {
 	}
 	
 	@RequestMapping(value = "/company/delete/{id}",method = RequestMethod.DELETE)
-	public ResponseEntity<Company> deleteCompany(@PathVariable(value = "id") String id){
+	public ResponseEntity<Company> deleteCompany(@PathVariable(value = "id") int id){
 		Company result = companyRepository.getOne(id);
 		if(result == null) {
 			return ResponseEntity.notFound().build();

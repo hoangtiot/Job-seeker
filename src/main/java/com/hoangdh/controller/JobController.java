@@ -33,7 +33,7 @@ public class JobController {
 	}
 	
 	@GetMapping("/job/{id}")
-	public ResponseEntity<Job> getJobById(@PathVariable(value = "id") String jobId) throws Exception{
+	public ResponseEntity<Job> getJobById(@PathVariable(value = "id") int jobId) throws Exception{
 		Job job = jobRepository.findById(jobId)
 		          .orElseThrow(() -> new Exception("Job not found for this id :: " + jobId));
 		        return ResponseEntity.ok().body(job);
@@ -50,7 +50,7 @@ public class JobController {
 	}
 	
 	@RequestMapping(value = "/job/update/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Job> updateJob(@PathVariable(value = "id") String id, @RequestBody Job job){
+	public ResponseEntity<Job> updateJob(@PathVariable(value = "id") int id, @RequestBody Job job){
 		Job result = jobRepository.getOne(id);
 		if(result == null) {
 			return ResponseEntity.notFound().build();
@@ -61,7 +61,7 @@ public class JobController {
 	}
 	
 	@RequestMapping(value = "/job/delete/{id}",method = RequestMethod.DELETE)
-	public ResponseEntity<Job> deleteJob(@PathVariable(value = "id") String id){
+	public ResponseEntity<Job> deleteJob(@PathVariable(value = "id") int id){
 		Job result = jobRepository.getOne(id);
 		if(result == null) {
 			return ResponseEntity.notFound().build();

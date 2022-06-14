@@ -28,7 +28,7 @@ public class ApplicantController {
 	}
 	
 	@GetMapping("/applicant/{id}")
-	public ResponseEntity<Applicant> getApplicantById(@PathVariable(value = "id") String applicantId) throws Exception{
+	public ResponseEntity<Applicant> getApplicantById(@PathVariable(value = "id") int applicantId) throws Exception{
 		Applicant applicant = applicantRepository.findById(applicantId)
 		          .orElseThrow(() -> new Exception("Applicant not found for this id :: " + applicantId));
 		        return ResponseEntity.ok().body(applicant);
@@ -45,7 +45,7 @@ public class ApplicantController {
 	}
 	
 	@RequestMapping(value = "/applicant/update/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Applicant> updateApplicant(@PathVariable(value = "id") String id, @RequestBody Applicant applicant){
+	public ResponseEntity<Applicant> updateApplicant(@PathVariable(value = "id") int id, @RequestBody Applicant applicant){
 		Applicant result = applicantRepository.getOne(id);
 		if(result == null) {
 			return ResponseEntity.notFound().build();
@@ -56,7 +56,7 @@ public class ApplicantController {
 	}
 	
 	@RequestMapping(value = "/applicant/delete/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Applicant> deleteApplicant(@PathVariable(value = "id") String id){
+	public ResponseEntity<Applicant> deleteApplicant(@PathVariable(value = "id") int id){
 		Applicant result = applicantRepository.getOne(id);
 		if(result == null) {
 			return ResponseEntity.notFound().build();

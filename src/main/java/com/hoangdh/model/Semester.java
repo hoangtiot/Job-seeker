@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "semester")
+@Table(name = "Semester")
 public class Semester implements Serializable {
 
 	@Id
