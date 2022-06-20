@@ -1,16 +1,22 @@
 package com.hoangdh.Jobseeker.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -38,6 +44,24 @@ public class Applicant implements Serializable{
 	@JoinColumn(name="StudentID")
 	private Student student;
 	
+	@JsonIgnore
+	@ManyToMany(fetch=FetchType.LAZY,
+			cascade = {CascadeType.DETACH,CascadeType.MERGE
+			,CascadeType.PERSIST,CascadeType.REFRESH})
+	@JoinTable(name="Application",
+				joinColumns=@JoinColumn(name="ApplicantID"),
+				inverseJoinColumns=@JoinColumn(name="JobID"))
+	private List<Job> jobs;
+	
+	
+	public List<Job> getJobs() {
+		return jobs;
+	}
+
+	public void setJobs(List<Job> jobs) {
+		this.jobs = jobs;
+	}
+
 	public int getId() {
 		return id;
 	}

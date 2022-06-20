@@ -11,8 +11,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -33,6 +38,22 @@ public class Semester implements Serializable {
 	@Column(name = "EndDate")
 	private Date endDate;
 	
+	@JsonIgnore
+	@ManyToMany(fetch=FetchType.LAZY,
+			cascade = {CascadeType.DETACH,CascadeType.MERGE
+			,CascadeType.PERSIST,CascadeType.REFRESH})
+	@JoinTable(name="CompanyInSemester",
+			joinColumns=@JoinColumn(name="SemesterID"),
+			inverseJoinColumns=@JoinColumn(name="CompanyID"))
+	private List<Company> companies;	
+
+	public List<Company> getCompanies() {
+		return companies;
+	}
+
+	public void setCompanies(List<Company> companies) {
+		this.companies = companies;
+	}
 
 	public String getId() {
 		return id;
