@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "job")
+@Table(name = "Job")
 public class Job implements Serializable{
 	
 	@Id
@@ -39,6 +39,8 @@ public class Job implements Serializable{
 	
 	@Column(name = "Qualifications")
 	private String qualifications;
+	
+	
 
 	public int getId() {
 		return id;

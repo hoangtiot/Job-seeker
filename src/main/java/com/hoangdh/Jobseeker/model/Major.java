@@ -1,7 +1,6 @@
 package com.hoangdh.Jobseeker.model;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -16,30 +15,23 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "Semester")
-public class Semester implements Serializable {
+@Table(name = "Major")
+public class Major implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
-	private String id; 
+	private String ID;
 	
-	@Column(name = "SemesterName")
+	@Column(name ="Name")
 	private String name;
-
-	@Column(name = "StartDate")
-	private Date startDate;
 	
-	@Column(name = "EndDate")
-	private Date endDate;
-	
-
-	public String getId() {
-		return id;
+	public String getID() {
+		return ID;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setID(String iD) {
+		ID = iD;
 	}
 
 	public String getName() {
@@ -49,22 +41,7 @@ public class Semester implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
+	
 	
 	
 }

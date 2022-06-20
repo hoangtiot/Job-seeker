@@ -7,6 +7,7 @@ import org.springframework.boot.context.config.ConfigDataResourceNotFoundExcepti
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,14 +40,14 @@ public class JobController {
 		        return ResponseEntity.ok().body(job);
 	}
 	
-	@RequestMapping(value = "/job/add", method = RequestMethod.POST)
-	public ResponseEntity<Job> addJob(@RequestBody Job job){
-		Job jobCheck = jobRepository.getOne(job.getId());
+	@PostMapping("/job/add")
+	public ResponseEntity<Job> addJob(@RequestBody Job newJob){
+		Job jobCheck = jobRepository.getOne(newJob.getId());
 		if(jobCheck == null) {
 			return ResponseEntity.notFound().build();
 		}
-		jobRepository.save(job);
-		return ResponseEntity.ok().body(job);
+		jobRepository.save(newJob);
+		return ResponseEntity.ok().body(newJob);
 	}
 	
 	@RequestMapping(value = "/job/update/{id}", method = RequestMethod.PUT)

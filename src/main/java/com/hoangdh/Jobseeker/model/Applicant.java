@@ -2,12 +2,16 @@ package com.hoangdh.Jobseeker.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 
 @Entity
 @Table(name = "Applicant")
@@ -29,6 +33,10 @@ public class Applicant implements Serializable{
 	
 	@Column(name = "Status")
 	private int status;
+	
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="StudentID")
+	private Student student;
 	
 	public int getId() {
 		return id;
@@ -69,6 +77,14 @@ public class Applicant implements Serializable{
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public Student getStudent() {
+		return student;
+	}
+
+	public void setStudent(Student student) {
+		this.student = student;
 	}
 	
 	
