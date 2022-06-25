@@ -4,8 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,19 +25,19 @@ public class ApplicantController {
 	@Autowired
 	private ApplicantRepository applicantRepository;
 	
-	@GetMapping("/applicants")
+	@GetMapping("/")
 	public List<Applicant> getAllApplicants(){
 		return applicantRepository.findAll();
 	}
 	
-	@GetMapping("/applicant/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Applicant> getApplicantById(@PathVariable(value = "id") int applicantId) throws Exception{
 		Applicant applicant = applicantRepository.findById(applicantId)
 		          .orElseThrow(() -> new Exception("Applicant not found for this id :: " + applicantId));
 		        return ResponseEntity.ok().body(applicant);
 	}
 	
-	@RequestMapping(value = "/applicant/add", method = RequestMethod.POST)
+	@PostMapping(value = "/add")
 	public ResponseEntity<Applicant> addApplicant(@RequestBody Applicant applicant){
 		Applicant applicantCheck = applicantRepository.getOne(applicant.getId());
 		if(applicantCheck == null) {
@@ -44,7 +47,7 @@ public class ApplicantController {
 		return ResponseEntity.ok().body(applicant);
 	}
 	
-	@RequestMapping(value = "/applicant/update/{id}", method = RequestMethod.PUT)
+	@PutMapping(value = "/update/{id}")
 	public ResponseEntity<Applicant> updateApplicant(@PathVariable(value = "id") int id, @RequestBody Applicant applicant){
 		Applicant result = applicantRepository.getOne(id);
 		if(result == null) {
@@ -55,7 +58,7 @@ public class ApplicantController {
 		return ResponseEntity.ok().body(result);
 	}
 	
-	@RequestMapping(value = "/applicant/delete/{id}", method = RequestMethod.DELETE)
+	@DeleteMapping(value = "/delete/{id}")
 	public ResponseEntity<Applicant> deleteApplicant(@PathVariable(value = "id") int id){
 		Applicant result = applicantRepository.getOne(id);
 		if(result == null) {

@@ -28,11 +28,6 @@ public class JobController {
 	private JobRepository jobRepository;
 	
 	@GetMapping("/")
-	public String getPage() {
-		return "Welcome";
-	}
-	
-	@GetMapping("/jobs")
 	public List<Job> getAllJobs(){
 		return jobRepository.findAll();
 	}

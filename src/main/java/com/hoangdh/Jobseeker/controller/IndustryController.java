@@ -4,8 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,19 +24,19 @@ public class IndustryController {
 	@Autowired 
 	private IndustryRepository industryRepository;
 	
-	@GetMapping("/industries")
+	@GetMapping("/")
 	public List<Industry> getAllIndustries(){
 		return industryRepository.findAll();
 	}
 	
-	@GetMapping("/industry/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Industry> getIndustryById(@PathVariable(value = "id") int industryId) throws Exception{
 		Industry industry = industryRepository.findById(industryId)
 		          .orElseThrow(() -> new Exception("Industry not found for this id :: " + industryId));
 		        return ResponseEntity.ok().body(industry);
 	}
 	
-	@RequestMapping(value = "/industry/add", method = RequestMethod.POST)
+	@PostMapping(value = "/add")
 	public ResponseEntity<Industry> addIndustry(@RequestBody Industry industry){
 		Industry industryCheck = industryRepository.getOne(industry.getId());
 		if(industryCheck == null) {
@@ -43,7 +46,7 @@ public class IndustryController {
 		return ResponseEntity.ok().body(industry);
 	}
 	
-	@RequestMapping(value = "/industry/update/{id}", method = RequestMethod.PUT)
+	@PutMapping(value = "/update/{id}")
 	public ResponseEntity<Industry> updateIndustry(@PathVariable(value = "id") int id, @RequestBody Industry Industry){
 		Industry result = industryRepository.getOne(id);
 		if(result == null) {
@@ -54,7 +57,7 @@ public class IndustryController {
 		return ResponseEntity.ok().body(result);
 	}
 	
-	@RequestMapping(value = "/industry/delete/{id}",method = RequestMethod.DELETE)
+	@DeleteMapping(value = "/delete/{id}")
 	public ResponseEntity<Industry> deleteIndustry(@PathVariable(value = "id") int id){
 		Industry result = industryRepository.getOne(id);
 		if(result == null) {
