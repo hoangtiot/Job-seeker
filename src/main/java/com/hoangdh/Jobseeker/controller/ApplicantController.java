@@ -26,8 +26,8 @@ public class ApplicantController {
 	private ApplicantRepository applicantRepository;
 	
 	@GetMapping("/")
-	public List<Applicant> getAllApplicants(){
-		return applicantRepository.findAll();
+	public ResponseEntity<List<Applicant>> getAllApplicants(){
+		return ResponseEntity.ok().body(applicantRepository.findAll());
 	}
 	
 	@GetMapping("/{id}")

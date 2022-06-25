@@ -25,8 +25,8 @@ public class JobCategoryController {
 	private JobCategoryRepository jobCategoryRepository;
 	
 	@GetMapping("/")
-	public List<JobCategory> getAlljobCategories(){
-		return jobCategoryRepository.findAll();
+	public ResponseEntity<List<JobCategory>> getAlljobCategories(){
+		return ResponseEntity.ok().body(jobCategoryRepository.findAll());
 	}
 	
 	@GetMapping("/{id}")

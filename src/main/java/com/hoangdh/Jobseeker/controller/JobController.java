@@ -28,8 +28,9 @@ public class JobController {
 	private JobRepository jobRepository;
 	
 	@GetMapping("/")
-	public List<Job> getAllJobs(){
-		return jobRepository.findAll();
+	public ResponseEntity<List<Job>> getAllJobs(){
+		List<Job> result = (List<Job>) jobRepository.findAll();
+		return ResponseEntity.ok().body(result);
 	}
 	
 	@GetMapping("/{id}")
@@ -40,16 +41,16 @@ public class JobController {
 	}
 	
 	@GetMapping("/search/{search}")
-	public List<Job> findByTitle(@PathVariable(value = "search") String search) throws Exception{
+	public ResponseEntity<List<Job>> findByTitle(@PathVariable(value = "search") String search) throws Exception{
 		List<Job> result = (List<Job>) jobRepository.findByJobTitleContains(search);
-		return result;
+		return ResponseEntity.ok().body(result);
 	}
 	
-//	@GetMapping("/searchByCategory/{categoryId}")
-//	public List<Job> findByCategory(@PathVariable(value = "categoryId") String id) throws Exception{
-//		List<Job> result = (List<Job>) jobRepository.findByCategoryId(id);
-//		return result;
-//	}
+	@GetMapping("/category/{categoryId}")
+	public ResponseEntity<List<Job>> findByCategory(@PathVariable(value = "categoryId") String id) throws Exception{
+		List<Job> result = (List<Job>) jobRepository.findByJobCategoryId(id);
+		return ResponseEntity.ok().body(result);
+	}
 	
 	@PostMapping(value = "/add")
 	public ResponseEntity<Job> addJob(@RequestBody Job job){

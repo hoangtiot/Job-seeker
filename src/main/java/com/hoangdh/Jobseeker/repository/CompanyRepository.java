@@ -8,6 +8,6 @@ import com.hoangdh.Jobseeker.model.Company;
 
 public interface CompanyRepository extends JpaRepository<Company,Integer> {
 
-	List<Company> findByCategoryId(int industyId);
+	List<Company> findByIndustryId(int industyId);
 
 }

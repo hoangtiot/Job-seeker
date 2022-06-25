@@ -25,8 +25,8 @@ public class IndustryController {
 	private IndustryRepository industryRepository;
 	
 	@GetMapping("/")
-	public List<Industry> getAllIndustries(){
-		return industryRepository.findAll();
+	public ResponseEntity<List<Industry>> getAllIndustries(){
+		return ResponseEntity.ok().body(industryRepository.findAll());
 	}
 	
 	@GetMapping("/{id}")

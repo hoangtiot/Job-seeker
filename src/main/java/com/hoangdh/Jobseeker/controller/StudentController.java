@@ -26,8 +26,8 @@ public class StudentController{
 	private StudentRepository studentRepository;
 	
 	@GetMapping("/")
-	public List<Student> getAllstudents(){
-		return studentRepository.findAll();
+	public ResponseEntity<List<Student>> getAllstudents(){
+		return ResponseEntity.ok().body(studentRepository.findAll());
 	}
 	
 	@GetMapping("/{id}")

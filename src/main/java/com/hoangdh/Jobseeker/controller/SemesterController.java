@@ -25,8 +25,8 @@ public class SemesterController {
 	private SemesterRepository semesterRepository;
 	
 	@GetMapping("/")
-	public List<Semester> getAllSemesters(){
-		return semesterRepository.findAll();
+	public ResponseEntity<List<Semester>> getAllSemesters(){
+		return ResponseEntity.ok().body(semesterRepository.findAll());
 	}
 	
 	@GetMapping("/{id}")

@@ -11,5 +11,8 @@ import com.hoangdh.Jobseeker.model.Job;
 public interface JobRepository extends JpaRepository<Job, Integer>{
 
 	List<Job> findByJobTitleContains(String search);
+
+	List<Job> findByJobCategoryId(String id);
+
 	
 }
