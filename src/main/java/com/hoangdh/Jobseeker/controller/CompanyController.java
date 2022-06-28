@@ -26,7 +26,10 @@ public class CompanyController {
 	
 	@GetMapping("/")
 	public ResponseEntity<List<Company>> getAllCompanies(){
-		return ResponseEntity.ok().body(companyRepository.findAll());
+		List<Company> result = companyRepository.findAll();
+		return ResponseEntity.ok()
+				.header("X-Total-Count", String.valueOf(result.size()))
+				.body(result);
 	}
 	
 	@GetMapping("/{id}")
@@ -39,7 +42,9 @@ public class CompanyController {
 	@GetMapping("/industry/{industryId}")
 	public ResponseEntity<List<Company>> getCompanyByIndustry(@PathVariable(value = "industryId") int industryId) throws Exception{
 		List<Company> result = (List<Company>) companyRepository.findByIndustryId(industryId);
-		return ResponseEntity.ok().body(result);
+		return ResponseEntity.ok()
+				.header("X-Total-Count", String.valueOf(result.size()))
+				.body(result);
 	}
 	
 	@PostMapping(value = "/add")

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hoangdh.Jobseeker.model.Job;
 import com.hoangdh.Jobseeker.model.Student;
 import com.hoangdh.Jobseeker.repository.StudentRepository;
 
@@ -27,7 +28,10 @@ public class StudentController{
 	
 	@GetMapping("/")
 	public ResponseEntity<List<Student>> getAllstudents(){
-		return ResponseEntity.ok().body(studentRepository.findAll());
+		List<Student> result = (List<Student>) studentRepository.findAll();
+		return ResponseEntity.ok()
+				.header("X-Total-Count", String.valueOf(result.size()))
+				.body(result);
 	}
 	
 	@GetMapping("/{id}")

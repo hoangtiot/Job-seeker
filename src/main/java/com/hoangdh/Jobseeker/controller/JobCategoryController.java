@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hoangdh.Jobseeker.model.Job;
 import com.hoangdh.Jobseeker.model.JobCategory;
 import com.hoangdh.Jobseeker.repository.JobCategoryRepository;
 
@@ -26,7 +27,10 @@ public class JobCategoryController {
 	
 	@GetMapping("/")
 	public ResponseEntity<List<JobCategory>> getAlljobCategories(){
-		return ResponseEntity.ok().body(jobCategoryRepository.findAll());
+		List<JobCategory> result = (List<JobCategory>) jobCategoryRepository.findAll();
+		return ResponseEntity.ok()
+				.header("X-Total-Count", String.valueOf(result.size()))
+				.body(result);
 	}
 	
 	@GetMapping("/{id}")

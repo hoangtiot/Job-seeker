@@ -27,7 +27,10 @@ public class ApplicantController {
 	
 	@GetMapping("/")
 	public ResponseEntity<List<Applicant>> getAllApplicants(){
-		return ResponseEntity.ok().body(applicantRepository.findAll());
+		List<Applicant> result = (List<Applicant>) applicantRepository.findAll();
+		return ResponseEntity.ok()
+				.header("X-Total-Count", String.valueOf(result.size()))
+				.body(result);
 	}
 	
 	@GetMapping("/{id}")

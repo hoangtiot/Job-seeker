@@ -1,9 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.hoangdh.Jobseeker.JobSeekerApplicationTests
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 7.149 s <<< FAILURE! - in com.hoangdh.Jobseeker.JobSeekerApplicationTests
-contextLoads  Time elapsed: 0.001 s  <<< ERROR!
-java.lang.IllegalStateException: Failed to load ApplicationContext
-Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'applicantController': Unsatisfied dependency expressed through field 'applicantRepository'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.hoangdh.Jobseeker.repository.ApplicantRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
-Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.hoangdh.Jobseeker.repository.ApplicantRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
-

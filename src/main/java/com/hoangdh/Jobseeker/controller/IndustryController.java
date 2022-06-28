@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hoangdh.Jobseeker.model.Industry;
+import com.hoangdh.Jobseeker.model.Job;
 import com.hoangdh.Jobseeker.repository.IndustryRepository;
 
 @RestController
@@ -26,7 +27,10 @@ public class IndustryController {
 	
 	@GetMapping("/")
 	public ResponseEntity<List<Industry>> getAllIndustries(){
-		return ResponseEntity.ok().body(industryRepository.findAll());
+		List<Industry> result = (List<Industry>) industryRepository.findAll();
+		return ResponseEntity.ok()
+				.header("X-Total-Count", String.valueOf(result.size()))
+				.body(result);
 	}
 	
 	@GetMapping("/{id}")
