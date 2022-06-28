@@ -47,6 +47,8 @@ public class Student implements Serializable{
 	@JoinColumn(name="MajorID")
 	private Major major;
 
+	private int status;
+	
 	public String getId() {
 		return id;
 	}
@@ -93,6 +95,14 @@ public class Student implements Serializable{
 
 	public void setMajor(Major major) {
 		this.major = major;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 		
 }
