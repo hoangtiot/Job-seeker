@@ -47,6 +47,7 @@ public class Student implements Serializable{
 	@JoinColumn(name="MajorID")
 	private Major major;
 
+	@Column(name ="Status")
 	private int status;
 	
 	public String getId() {
