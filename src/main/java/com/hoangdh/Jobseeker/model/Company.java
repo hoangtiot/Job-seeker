@@ -17,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "Company")
 public class Company implements Serializable{
@@ -32,10 +34,11 @@ public class Company implements Serializable{
 	@Column(name = "Description")
 	private String description;
 
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.MERGE)
 	@JoinColumn(name="IndustryID")
 	private Industry industry ;
 
+	@JsonIgnore
 	@ManyToMany(fetch=FetchType.LAZY,
 	cascade = {CascadeType.DETACH,CascadeType.MERGE
 	,CascadeType.PERSIST,CascadeType.REFRESH})
