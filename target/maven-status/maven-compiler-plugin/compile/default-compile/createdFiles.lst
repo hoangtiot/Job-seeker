@@ -1,11 +1,14 @@
+com\hoangdh\Jobseeker\repository\ApplicationRepository.class
 com\hoangdh\Jobseeker\repository\StudentRepository.class
 com\hoangdh\Jobseeker\controller\SemesterController.class
 com\hoangdh\Jobseeker\model\Student.class
+com\hoangdh\Jobseeker\repository\MajorRepository.class
 com\hoangdh\Jobseeker\repository\CompanyRepository.class
 com\hoangdh\Jobseeker\model\Major.class
 com\hoangdh\Jobseeker\model\CompanyInSemester.class
 com\hoangdh\Jobseeker\model\JobCategory.class
 com\hoangdh\Jobseeker\model\Semester.class
+com\hoangdh\Jobseeker\controller\ApplicationController.class
 com\hoangdh\Jobseeker\controller\CompanyController.class
 com\hoangdh\Jobseeker\controller\StudentController.class
 com\hoangdh\Jobseeker\repository\JobRepository.class
@@ -16,6 +19,7 @@ com\hoangdh\Jobseeker\repository\ApplicantRepository.class
 com\hoangdh\Jobseeker\ServletInitializer.class
 com\hoangdh\Jobseeker\controller\JobController.class
 com\hoangdh\Jobseeker\controller\ApplicantController.class
+com\hoangdh\Jobseeker\controller\MajorController.class
 com\hoangdh\Jobseeker\JobSeekerApplication.class
 com\hoangdh\Jobseeker\controller\IndustryController.class
 com\hoangdh\Jobseeker\controller\JobCategoryController.class

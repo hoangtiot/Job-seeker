@@ -15,6 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.firebase.auth.ExportedUserRecord;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.ListUsersPage;
+import com.google.firebase.auth.UserRecord;
+import com.google.firebase.auth.UserRecord.CreateRequest;
 import com.hoangdh.Jobseeker.model.Applicant;
 import com.hoangdh.Jobseeker.model.Job;
 import com.hoangdh.Jobseeker.repository.ApplicantRepository;
@@ -30,6 +36,25 @@ public class ApplicantController {
 	@GetMapping("/")
 	public ResponseEntity<List<Applicant>> getAllApplicants(){
 		List<Applicant> result = (List<Applicant>) applicantRepository.findAll();
+//		for (int i = 0; i < result.size(); i ++) {
+//			CreateRequest request = new CreateRequest()
+//				    .setEmail(result.get(i).getEmail())
+//				    .setEmailVerified(false)
+//				    .setPassword("secretPassword")
+//				    .setPhoneNumber("+84" + result.get(i).getPhoneNumber())
+//				    .setDisplayName(result.get(i).getStudent().getName())
+//				    .setPhotoUrl("http://www.example.com/12345678/photo.png")
+//				    .setDisabled(false);
+//
+//				try {
+//					UserRecord userRecord = FirebaseAuth.getInstance().createUser(request);
+//					System.out.println(userRecord.getEmail());
+//				} catch (FirebaseAuthException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//
+//		}
 		return ResponseEntity.ok()
 				.header("X-Total-Count", String.valueOf(result.size()))
 				.body(result);
@@ -39,6 +64,32 @@ public class ApplicantController {
 	public ResponseEntity<Applicant> getApplicantById(@PathVariable(value = "id") int applicantId) throws Exception{
 		Applicant applicant = applicantRepository.findById(applicantId)
 		          .orElseThrow(() -> new Exception("Applicant not found for this id :: " + applicantId));
+		        return ResponseEntity.ok().body(applicant);
+	}
+	
+	@GetMapping("/google/")
+	public ResponseEntity<List<Applicant>> getApplicantsByGoogleId(@RequestBody List<String> listId) throws Exception{
+		List<Applicant> list = (List<Applicant>) applicantRepository.findAll();
+		List<Applicant> result = null;
+		for (int i = 0; i < listId.size(); i++) {
+		  for (int j = 0; j < list.size(); j++) {
+			  if (list.get(i).getEmail()
+					  .equalsIgnoreCase(FirebaseAuth.getInstance().getUser(listId.get(j)).getEmail())) {
+				  result.add(list.get(i));
+			  };
+		  }
+		}
+		return ResponseEntity.ok()
+				.header("X-Total-Count", String.valueOf(result.size()))
+				.body(result);
+	}
+	
+	@GetMapping("/google/{id}")
+	public ResponseEntity<Applicant> getApplicantByGoogleId(@PathVariable(value = "id") String googleId) throws Exception{
+		UserRecord userRecord = FirebaseAuth.getInstance().getUser(googleId);
+
+		Applicant applicant = applicantRepository.findByEmail(userRecord.getEmail())
+		          .orElseThrow(() -> new Exception("Applicant not found for this google id :: " + googleId));
 		        return ResponseEntity.ok().body(applicant);
 	}
 	
