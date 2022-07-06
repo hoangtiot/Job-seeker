@@ -1,3 +1,4 @@
+
 package com.hoangdh.Jobseeker.model;
 
 import java.io.Serializable;
@@ -6,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,5 +20,45 @@ public class Application implements Serializable {
 	private int id;
 	
 	private int status;
+	
+	@ManyToOne
+	@JoinColumn(name = "JobID")
+	private Job job;
+	
+	@ManyToOne
+	@JoinColumn(name = "ApplicantID")
+	private Applicant applicant;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public Job getJob() {
+		return job;
+	}
+
+	public void setJob(Job job) {
+		this.job = job;
+	}
+
+	public Applicant getApplicant() {
+		return applicant;
+	}
+
+	public void setApplicant(Applicant applicant) {
+		this.applicant = applicant;
+	}
 	
 }
