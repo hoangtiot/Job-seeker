@@ -53,7 +53,17 @@ public class Applicant implements Serializable{
 				inverseJoinColumns=@JoinColumn(name="JobID"))
 	private List<Job> jobs;
 	
+	@Column(name = "cvFile")
+	private String cvFile;
 	
+	public String getCvFile() {
+		return cvFile;
+	}
+
+	public void setCvFile(String cvFile) {
+		this.cvFile = cvFile;
+	}
+
 	public List<Job> getJobs() {
 		return jobs;
 	}
