@@ -29,6 +29,9 @@ public class Application implements Serializable {
 	@JoinColumn(name = "ApplicantID")
 	private Applicant applicant;
 	
+	public Application() {
+	}
+	
 	public Application(int id, int status, Job job, Applicant applicant) {
 		super();
 		this.id = id;

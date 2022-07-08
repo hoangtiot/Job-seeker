@@ -1,5 +1,6 @@
 package com.hoangdh.Jobseeker.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,17 +48,44 @@ public class ApplicationController {
 		        return ResponseEntity.ok().body(Application);
 	}
 	
+	@GetMapping("/job/{jobId}")
+	public ResponseEntity<List<Applicant>> getApplicantByJobId(@PathVariable(value = "jobId") int jobId) throws Exception{
+		List<Application> listApplication = applicationRepository.findByJobId(jobId);
+		List<Applicant> result = new ArrayList<Applicant>();;
+		for (Application application : listApplication) {
+			if (application.getJob().getId() == jobId)
+				result.add(application.getApplicant());
+		}
+		return ResponseEntity.ok()
+				.header("X-Total-Count", String.valueOf(result.size()))
+				.body(result);
+	}
+	
+	@GetMapping("/applicant/{applicantId}")
+	public ResponseEntity<List<Job>> getJobByApplicantId(@PathVariable(value = "applicantId") int applicantId) throws Exception{
+		List<Application> listApplication = applicationRepository.findByApplicantId(applicantId);
+		List<Job> result = new ArrayList<Job>();
+		for (Application application : listApplication) {
+			if (application.getApplicant().getId() == applicantId)
+				result.add(application.getJob());
+		}
+		return ResponseEntity.ok()
+				.header("X-Total-Count", String.valueOf(result.size()))
+				.body(result);
+	}
+	
 	@PostMapping(value = "/add")
 	public ResponseEntity<Application> addApplication(@RequestBody Applicant applicant, @RequestBody Job job){
-		Application applicationCheck = applicationRepository.findByApplicantId(applicant.getId() + "");
-		Application application = null;
-		if(applicationCheck == null) {
-			application = new Application((int) (applicationRepository.count() + 1), 0, job, applicant);
-			applicationRepository.save(application);
-		} else {
-			return ResponseEntity.status(409).body(null);
+		List<Application> listApplication = applicationRepository.findByApplicantId(applicant.getId());
+		Application result;
+		for (Application application : listApplication) {
+			if(application.getJob().getId() == job.getId()) {
+				return ResponseEntity.status(409).body(null);
+			}
 		}
-		return ResponseEntity.ok().body(application);
+		result = new Application((int) (applicationRepository.count() + 1), 0, job, applicant);
+		applicationRepository.save(result);
+		return ResponseEntity.ok().body(result);
 	}
 	
 	@PutMapping(value = "/update/{id}")
