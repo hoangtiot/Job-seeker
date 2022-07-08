@@ -47,9 +47,10 @@ public class StudentController{
 	public ResponseEntity<Student> addstudent(@RequestBody Student student){
 		Student studentCheck = studentRepository.getOne(student.getId());
 		if(studentCheck == null) {
-			return ResponseEntity.notFound().build();
+			studentRepository.save(student);
+		} else {
+			return ResponseEntity.status(409).body(null);
 		}
-		studentRepository.save(student);
 		return ResponseEntity.ok().body(student);
 	}
 	

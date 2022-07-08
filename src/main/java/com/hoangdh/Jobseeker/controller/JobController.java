@@ -62,9 +62,10 @@ public class JobController {
 	public ResponseEntity<Job> addJob(@RequestBody Job job){
 		Job jobCheck = jobRepository.getOne(job.getId());
 		if(jobCheck == null) {
-			return ResponseEntity.notFound().build();
+			jobRepository.save(job);
+		} else {
+			return ResponseEntity.status(409).body(null);
 		}
-		jobRepository.save(job);
 		return ResponseEntity.ok().body(job);
 	}
 	

@@ -53,9 +53,10 @@ public class CompanyController {
 	public ResponseEntity<Company> addCompany(@RequestBody Company company){
 		Company CompanyCheck = companyRepository.getOne(company.getId());
 		if(CompanyCheck == null) {
-			return ResponseEntity.notFound().build();
+			companyRepository.save(company);
+		} else {
+			return ResponseEntity.status(409).body(null);
 		}
-		companyRepository.save(company);
 		return ResponseEntity.ok().body(company);
 	}
 	

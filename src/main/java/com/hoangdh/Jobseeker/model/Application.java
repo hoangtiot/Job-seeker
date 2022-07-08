@@ -28,6 +28,14 @@ public class Application implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "ApplicantID")
 	private Applicant applicant;
+	
+	public Application(int id, int status, Job job, Applicant applicant) {
+		super();
+		this.id = id;
+		this.status = status;
+		this.job = job;
+		this.applicant = applicant;
+	}
 
 	public int getId() {
 		return id;

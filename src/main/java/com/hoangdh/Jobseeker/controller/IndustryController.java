@@ -46,9 +46,10 @@ public class IndustryController {
 	public ResponseEntity<Industry> addIndustry(@RequestBody Industry industry){
 		Industry industryCheck = industryRepository.getOne(industry.getId());
 		if(industryCheck == null) {
-			return ResponseEntity.notFound().build();
+			industryRepository.save(industry);
+		} else {
+			return ResponseEntity.status(409).body(null);
 		}
-		industryRepository.save(industry);
 		return ResponseEntity.ok().body(industry);
 	}
 	

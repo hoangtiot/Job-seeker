@@ -46,9 +46,10 @@ public class SemesterController {
 	public ResponseEntity<Semester> addSemester(@RequestBody Semester semester){
 		Semester semesterCheck = semesterRepository.getOne(semester.getId());
 		if(semesterCheck == null) {
-			return ResponseEntity.notFound().build();
+			semesterRepository.save(semester);
+		} else {
+			return ResponseEntity.status(409).body(null);
 		}
-		semesterRepository.save(semester);
 		return ResponseEntity.ok().body(semester);
 	}
 	

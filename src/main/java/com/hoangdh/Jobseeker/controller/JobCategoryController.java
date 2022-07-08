@@ -46,9 +46,10 @@ public class JobCategoryController {
 	public ResponseEntity<JobCategory> addJobCategory(@RequestBody JobCategory jobCategory){
 		JobCategory jobCategoryCheck = jobCategoryRepository.getOne(jobCategory.getId());
 		if(jobCategoryCheck == null) {
-			return ResponseEntity.notFound().build();
+			jobCategoryRepository.save(jobCategory);
+		} else {
+			return ResponseEntity.status(409).body(null);
 		}
-		jobCategoryRepository.save(jobCategory);
 		return ResponseEntity.ok().body(jobCategory);
 	}
 	

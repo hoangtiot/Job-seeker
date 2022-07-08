@@ -97,9 +97,10 @@ public class ApplicantController {
 	public ResponseEntity<Applicant> addApplicant(@RequestBody Applicant applicant){
 		Applicant applicantCheck = applicantRepository.getOne(applicant.getId());
 		if(applicantCheck == null) {
-			return ResponseEntity.notFound().build();
+			applicantRepository.save(applicant);
+		} else {
+			return ResponseEntity.status(409).body(null);
 		}
-		applicantRepository.save(applicant);
 		return ResponseEntity.ok().body(applicant);
 	}
 	
