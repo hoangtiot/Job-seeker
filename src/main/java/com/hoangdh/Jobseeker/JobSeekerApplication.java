@@ -12,6 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.gson.JsonObject;
 
 @SpringBootApplication
 public class JobSeekerApplication {
@@ -22,7 +23,7 @@ public class JobSeekerApplication {
 
 
 		FileInputStream serviceAccount =
-		  new FileInputStream("D:\\Download\\jobportal-f8c24-firebase-adminsdk-usdiu-be69f3c927.json");
+		new FileInputStream("D:\\Document\\Eclipse\\new\\Job-seeker\\src\\main\\resources\\jobportal-f8c24-firebase-adminsdk-usdiu-be69f3c927.json");
 		
 		FirebaseOptions options = new FirebaseOptions.Builder()
 				  .setCredentials(GoogleCredentials.fromStream(serviceAccount))
