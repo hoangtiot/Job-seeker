@@ -51,8 +51,16 @@ public class JobController {
 	}
 	
 	@GetMapping("/category/{categoryId}")
-	public ResponseEntity<List<Job>> findByCategory(@PathVariable(value = "categoryId") String id) throws Exception{
+	public ResponseEntity<List<Job>> findByCategory(@PathVariable(value = "categoryId") int id) throws Exception{
 		List<Job> result = (List<Job>) jobRepository.findByJobCategoryId(id);
+		return ResponseEntity.ok()
+				.header("X-Total-Count", String.valueOf(result.size()))
+				.body(result);
+	}
+	
+	@GetMapping("/company/{companyId}")
+	public ResponseEntity<List<Job>> findByCompany(@PathVariable(value = "companyId") int id) throws Exception{
+		List<Job> result = (List<Job>) jobRepository.findByCompanyId(id);
 		return ResponseEntity.ok()
 				.header("X-Total-Count", String.valueOf(result.size()))
 				.body(result);

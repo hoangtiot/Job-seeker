@@ -12,7 +12,9 @@ public interface JobRepository extends JpaRepository<Job, Integer>{
 
 	List<Job> findByJobTitleContains(String search);
 
-	List<Job> findByJobCategoryId(String id);
+	List<Job> findByJobCategoryId(int id);
+
+	List<Job> findByCompanyId(int id);
 
 	
 }
