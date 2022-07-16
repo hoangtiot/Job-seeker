@@ -23,8 +23,8 @@ public class JobSeekerApplication {
 
 
 		FileInputStream serviceAccount =
-		new FileInputStream("D:\\Document\\Eclipse\\new\\Job-seeker\\src\\main\\resources\\jobportal-f8c24-firebase-adminsdk-usdiu-be69f3c927.json");
-		
+		//new FileInputStream("D:\\Document\\Eclipse\\new\\Job-seeker\\src\\main\\resources\\jobportal-f8c24-firebase-adminsdk-usdiu-be69f3c927.json");
+		new FileInputStream("D:\\EclipseProject\\Job-seeker\\src\\main\\resources\\jobportal-f8c24-firebase-adminsdk-usdiu-be69f3c927.json");
 		FirebaseOptions options = new FirebaseOptions.Builder()
 				  .setCredentials(GoogleCredentials.fromStream(serviceAccount))
 				  .build();
@@ -32,8 +32,6 @@ public class JobSeekerApplication {
 		
 		FirebaseApp.initializeApp(options);
 
-
-		System.out.println("Hello World");
 	}
 
 }

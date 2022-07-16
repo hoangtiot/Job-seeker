@@ -53,9 +53,21 @@ public class Applicant implements Serializable{
 				inverseJoinColumns=@JoinColumn(name="JobID"))
 	private List<Job> jobs;
 	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "SemesterId")
+	private Semester semester;
+	
 	@Column(name = "cvFile")
 	private String cvFile;
-	
+		
+	public Semester getSemester() {
+		return semester;
+	}
+
+	public void setSemester(Semester semester) {
+		this.semester = semester;
+	}
+
 	public String getCvFile() {
 		return cvFile;
 	}

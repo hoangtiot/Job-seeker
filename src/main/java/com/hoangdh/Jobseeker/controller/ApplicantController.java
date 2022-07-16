@@ -125,4 +125,12 @@ public class ApplicantController {
 		return ResponseEntity.ok().body(result);
 	}
 	
+	@GetMapping(value = "/semester/{semesterId}")
+	public ResponseEntity<List<Applicant>> findBySemester(@PathVariable(value  = "semesterId") String id){
+		List<Applicant> result = applicantRepository.findBySemesterId(id);
+		return ResponseEntity.ok()
+				.header("X-Total-Count", String.valueOf(result.size()))
+				.body(result);
+	}
+	
 }
