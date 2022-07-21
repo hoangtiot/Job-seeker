@@ -51,12 +51,8 @@ public class CompanyController {
 	
 	@PostMapping(value = "/add")
 	public ResponseEntity<Company> addCompany(@RequestBody Company company){
-		Company CompanyCheck = companyRepository.getOne(company.getId());
-		if(CompanyCheck == null) {
-			companyRepository.save(company);
-		} else {
-			return ResponseEntity.status(409).body(null);
-		}
+//		Company CompanyCheck = companyRepository.getOne(company.getId());
+		companyRepository.save(company);
 		return ResponseEntity.ok().body(company);
 	}
 	

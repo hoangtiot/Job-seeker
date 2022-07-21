@@ -68,12 +68,12 @@ public class JobController {
 	
 	@PostMapping(value = "/add")
 	public ResponseEntity<Job> addJob(@RequestBody Job job){
-		Job jobCheck = jobRepository.getOne(job.getId());
-		if(jobCheck == null) {
+//		Job jobCheck = jobRepository.getOne(job.getId());
+//		if(jobCheck == null) {
 			jobRepository.save(job);
-		} else {
-			return ResponseEntity.status(409).body(null);
-		}
+//		} else {
+//			return ResponseEntity.status(409).body(null);
+//		}
 		return ResponseEntity.ok().body(job);
 	}
 	
