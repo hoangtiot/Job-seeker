@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Semester implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
 	private String id; 
 	
@@ -40,8 +40,7 @@ public class Semester implements Serializable {
 	
 	@JsonIgnore
 	@ManyToMany(fetch=FetchType.LAZY,
-			cascade = {CascadeType.DETACH,CascadeType.MERGE
-			,CascadeType.PERSIST,CascadeType.REFRESH})
+			cascade = CascadeType.MERGE)
 	@JoinTable(name="CompanyInSemester",
 			joinColumns=@JoinColumn(name="SemesterID"),
 			inverseJoinColumns=@JoinColumn(name="CompanyID"))

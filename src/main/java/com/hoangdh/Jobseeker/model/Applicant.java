@@ -40,7 +40,7 @@ public class Applicant implements Serializable{
 	@Column(name = "Status")
 	private int status;
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.MERGE)
 	@JoinColumn(name="StudentID")
 	private Student student;
 	
@@ -53,7 +53,7 @@ public class Applicant implements Serializable{
 				inverseJoinColumns=@JoinColumn(name="JobID"))
 	private List<Job> jobs;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "SemesterId")
 	private Semester semester;
 	

@@ -95,18 +95,18 @@ public class ApplicantController {
 	
 	@PostMapping(value = "/add")
 	public ResponseEntity<Applicant> addApplicant(@RequestBody Applicant applicant){
-		Applicant applicantCheck = applicantRepository.getOne(applicant.getId());
-		if(applicantCheck == null) {
+//		Applicant applicantCheck = applicantRepository.getOne(applicant.getId());
+//		if(applicantCheck == null) {
 			applicantRepository.save(applicant);
-		} else {
-			return ResponseEntity.status(409).body(null);
-		}
+//		} else {
+//			return ResponseEntity.status(409).body(null);
+//		}
 		return ResponseEntity.ok().body(applicant);
 	}
 	
 	@PutMapping(value = "/update/{id}")
 	public ResponseEntity<Applicant> updateApplicant(@PathVariable(value = "id") int id, @RequestBody Applicant applicant){
-		Applicant result = applicantRepository.getOne(id);
+		Applicant result = applicantRepository.findById(id).get();
 		if(result == null) {
 			return ResponseEntity.notFound().build();
 		}
@@ -117,7 +117,7 @@ public class ApplicantController {
 	
 	@DeleteMapping(value = "/delete/{id}")
 	public ResponseEntity<Applicant> deleteApplicant(@PathVariable(value = "id") int id){
-		Applicant result = applicantRepository.getOne(id);
+		Applicant result = applicantRepository.findById(id).get();
 		if(result == null) {
 			return ResponseEntity.notFound().build();
 		}
@@ -132,5 +132,6 @@ public class ApplicantController {
 				.header("X-Total-Count", String.valueOf(result.size()))
 				.body(result);
 	}
+	
 	
 }

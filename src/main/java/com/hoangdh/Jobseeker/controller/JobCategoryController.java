@@ -44,18 +44,18 @@ public class JobCategoryController {
 	
 	@PostMapping(value = "/add")
 	public ResponseEntity<JobCategory> addJobCategory(@RequestBody JobCategory jobCategory){
-		JobCategory jobCategoryCheck = jobCategoryRepository.getOne(jobCategory.getId());
-		if(jobCategoryCheck == null) {
+//		JobCategory jobCategoryCheck = jobCategoryRepository.getOne(jobCategory.getId());
+//		if(jobCategoryCheck == null) {
 			jobCategoryRepository.save(jobCategory);
-		} else {
-			return ResponseEntity.status(409).body(null);
-		}
+//		} else {
+//			return ResponseEntity.status(409).body(null);
+//		}
 		return ResponseEntity.ok().body(jobCategory);
 	}
 	
 	@PutMapping(value = "/update/{id}")
 	public ResponseEntity<JobCategory> updateJobCategory(@PathVariable(value = "id") int id, @RequestBody JobCategory JobCategory){
-		JobCategory result = jobCategoryRepository.getOne(id);
+		JobCategory result = jobCategoryRepository.findById(id).get();
 		if(result == null) {
 			return ResponseEntity.notFound().build();
 		}
@@ -66,7 +66,7 @@ public class JobCategoryController {
 	
 	@DeleteMapping(value = "/delete/{id}")
 	public ResponseEntity<JobCategory> deleteJobCategory(@PathVariable(value = "id") int id){
-		JobCategory result = jobCategoryRepository.getOne(id);
+		JobCategory result = jobCategoryRepository.findById(id).get();
 		if(result == null) {
 			return ResponseEntity.notFound().build();
 		}

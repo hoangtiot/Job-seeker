@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "JobCategory")
 public class JobCategory implements Serializable{
@@ -29,6 +31,7 @@ public class JobCategory implements Serializable{
 	@Column(name = "Description")
 	private String description;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "jobCategory",cascade = CascadeType.ALL)
 	private List<Job> jobs;	
 

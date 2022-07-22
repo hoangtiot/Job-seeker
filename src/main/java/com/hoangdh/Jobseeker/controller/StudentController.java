@@ -1,6 +1,7 @@
 package com.hoangdh.Jobseeker.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
@@ -45,18 +46,18 @@ public class StudentController{
 	
 	@PostMapping(value = "/add")
 	public ResponseEntity<Student> addstudent(@RequestBody Student student){
-		Student studentCheck = studentRepository.getOne(student.getId());
-		if(studentCheck == null) {
+//		Optional<Student> studentCheck = studentRepository.findById(student.getId());
+//		if(studentCheck == null) {
 			studentRepository.save(student);
-		} else {
-			return ResponseEntity.status(409).body(null);
-		}
+//		} else {
+//			return ResponseEntity.status(409).body(null);
+//		}
 		return ResponseEntity.ok().body(student);
 	}
 	
 	@PutMapping(value = "/update/{id}")
 	public ResponseEntity<Student> updatestudent(@PathVariable(value = "id") String id, @RequestBody Student student){
-		Student result = studentRepository.getOne(id);
+		Student result = studentRepository.findById(id).get();
 		if(result == null) {
 			return ResponseEntity.notFound().build();
 		}
@@ -67,7 +68,7 @@ public class StudentController{
 	
 	@DeleteMapping(value = "/delete/{id}")
 	public ResponseEntity<Student> deletestudent(@PathVariable(value = "id") String id){
-		Student result = studentRepository.getOne(id);
+		Student result = studentRepository.findById(id).get();
 		if(result == null) {
 			return ResponseEntity.notFound().build();
 		}

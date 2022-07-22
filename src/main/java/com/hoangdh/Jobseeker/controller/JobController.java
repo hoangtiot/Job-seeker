@@ -79,7 +79,7 @@ public class JobController {
 	
 	@PutMapping(value = "/update/{id}")
 	public ResponseEntity<Job> updateJob(@PathVariable(value = "id") int id, @RequestBody Job job){
-		Job result = jobRepository.getOne(id);
+		Job result = jobRepository.findById(id).get();
 		if(result == null) {
 			return ResponseEntity.notFound().build();
 		}
@@ -90,7 +90,7 @@ public class JobController {
 	
 	@DeleteMapping(value = "/delete/{id}")
 	public ResponseEntity<Job> deleteJob(@PathVariable(value = "id") int id){
-		Job result = jobRepository.getOne(id);
+		Job result = jobRepository.findById(id).get();
 		if(result == null) {
 			return ResponseEntity.notFound().build();
 		}

@@ -90,7 +90,7 @@ public class ApplicationController {
 	
 	@PutMapping(value = "/update/{id}")
 	public ResponseEntity<Application> updateApplication(@PathVariable(value = "id") int id, @RequestBody Application Application){
-		Application result = applicationRepository.getOne(id);
+		Application result = applicationRepository.findById(id).get();
 		if(result == null) {
 			return ResponseEntity.notFound().build();
 		}
@@ -101,7 +101,7 @@ public class ApplicationController {
 	
 	@DeleteMapping(value = "/delete/{id}")
 	public ResponseEntity<Application> deleteApplication(@PathVariable(value = "id") int id){
-		Application result = applicationRepository.getOne(id);
+		Application result = applicationRepository.findById(id).get();
 		if(result == null) {
 			return ResponseEntity.notFound().build();
 		}

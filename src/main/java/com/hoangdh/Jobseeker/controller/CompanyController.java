@@ -58,7 +58,7 @@ public class CompanyController {
 	
 	@PutMapping(value = "/update/{id}")
 	public ResponseEntity<Company> updateCompany(@PathVariable(value = "id") int id, @RequestBody Company company){
-		Company result = companyRepository.getOne(id);
+		Company result = companyRepository.findById(id).get();
 		if(result == null) {
 			return ResponseEntity.notFound().build();
 		}
@@ -69,7 +69,7 @@ public class CompanyController {
 	
 	@DeleteMapping(value = "/delete/{id}")
 	public ResponseEntity<Company> deleteCompany(@PathVariable(value = "id") int id){
-		Company result = companyRepository.getOne(id);
+		Company result = companyRepository.findById(id).get();
 		if(result == null) {
 			return ResponseEntity.notFound().build();
 		}

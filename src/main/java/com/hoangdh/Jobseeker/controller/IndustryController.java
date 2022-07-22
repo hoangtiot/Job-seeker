@@ -55,7 +55,7 @@ public class IndustryController {
 	
 	@PutMapping(value = "/update/{id}")
 	public ResponseEntity<Industry> updateIndustry(@PathVariable(value = "id") int id, @RequestBody Industry Industry){
-		Industry result = industryRepository.getOne(id);
+		Industry result = industryRepository.findById(id).get();
 		if(result == null) {
 			return ResponseEntity.notFound().build();
 		}
@@ -66,7 +66,7 @@ public class IndustryController {
 	
 	@DeleteMapping(value = "/delete/{id}")
 	public ResponseEntity<Industry> deleteIndustry(@PathVariable(value = "id") int id){
-		Industry result = industryRepository.getOne(id);
+		Industry result = industryRepository.findById(id).get();
 		if(result == null) {
 			return ResponseEntity.notFound().build();
 		}

@@ -53,9 +53,8 @@ public class Job implements Serializable{
 	@Column(name = "Qualifications")
 	private String qualifications;
 	
-	@JsonIgnore
-	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE
-			,CascadeType.PERSIST,CascadeType.REFRESH})
+//	@JsonIgnore
+	@ManyToOne
 	@JoinColumn(name="JobCategoryID")
 	private JobCategory jobCategory;
 	
@@ -68,11 +67,23 @@ public class Job implements Serializable{
 				inverseJoinColumns=@JoinColumn(name="ApplicantID"))
 	private List<Applicant> applicants;
 	
-	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE
-			,CascadeType.PERSIST,CascadeType.REFRESH})
+	@ManyToOne
 	@JoinColumn(name="CompanyID")
 	private Company company;
 	
+	@ManyToOne
+	@JoinColumn(name="MajorID")
+	private Major major;
+	
+	
+	public Major getMajor() {
+		return major;
+	}
+
+	public void setMajor(Major major) {
+		this.major = major;
+	}
+
 	public Company getCompany() {
 		return company;
 	}

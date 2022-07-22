@@ -44,18 +44,18 @@ public class SemesterController {
 	
 	@PostMapping(value = "/add")
 	public ResponseEntity<Semester> addSemester(@RequestBody Semester semester){
-		Semester semesterCheck = semesterRepository.getOne(semester.getId());
-		if(semesterCheck == null) {
+//		Semester semesterCheck = semesterRepository.getOne(semester.getId());
+//		if(semesterCheck == null) {
 			semesterRepository.save(semester);
-		} else {
-			return ResponseEntity.status(409).body(null);
-		}
+//		} else {
+//			return ResponseEntity.status(409).body(null);
+//		}
 		return ResponseEntity.ok().body(semester);
 	}
 	
 	@PutMapping(value = "/update/{id}")
 	public ResponseEntity<Semester> updateSemester(@PathVariable(value = "id") String id, @RequestBody Semester Semester){
-		Semester result = semesterRepository.getOne(id);
+		Semester result = semesterRepository.findById(id).get();
 		if(result == null) {
 			return ResponseEntity.notFound().build();
 		}
@@ -66,7 +66,7 @@ public class SemesterController {
 	
 	@DeleteMapping(value = "/delete/{id}")
 	public ResponseEntity<Semester> deleteSemester(@PathVariable(value = "id") String id){
-		Semester result = semesterRepository.getOne(id);
+		Semester result = semesterRepository.findById(id).get();
 		if(result == null) {
 			return ResponseEntity.notFound().build();
 		}

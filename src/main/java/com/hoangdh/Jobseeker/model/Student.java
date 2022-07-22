@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Student implements Serializable{
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
 	private String id;
 	
@@ -36,14 +36,13 @@ public class Student implements Serializable{
 	@Column(name = "DoB")
 	private String DOB;
 	
-	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE
-			,CascadeType.PERSIST,CascadeType.REFRESH})
+//	@JsonIgnore
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name="SemID")
 	private Semester semester;
 		
 	@JsonIgnoreProperties(ignoreUnknown = true)
-	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE
-			,CascadeType.PERSIST,CascadeType.REFRESH})
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name="MajorID")
 	private Major major;
 
