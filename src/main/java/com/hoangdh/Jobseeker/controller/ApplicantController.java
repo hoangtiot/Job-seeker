@@ -68,13 +68,13 @@ public class ApplicantController {
 	}
 	
 	@GetMapping("/google/")
-	public ResponseEntity<List<Applicant>> getApplicantsByGoogleId(@RequestBody List<String> listId) throws Exception{
+	public ResponseEntity<List<Applicant>> getApplicantsByGoogleId(@RequestBody List<String> listEmail) throws Exception{
 		List<Applicant> list = (List<Applicant>) applicantRepository.findAll();
 		List<Applicant> result = null;
-		for (int i = 0; i < listId.size(); i++) {
+		for (int i = 0; i < listEmail.size(); i++) {
 		  for (int j = 0; j < list.size(); j++) {
-			  if (list.get(i).getEmail()
-					  .equalsIgnoreCase(FirebaseAuth.getInstance().getUser(listId.get(j)).getEmail())) {
+			  if (list.get(j).getEmail()
+					  .equalsIgnoreCase(listEmail.get(i))) {
 				  result.add(list.get(i));
 			  };
 		  }
@@ -84,12 +84,12 @@ public class ApplicantController {
 				.body(result);
 	}
 	
-	@GetMapping("/google/{id}")
-	public ResponseEntity<Applicant> getApplicantByGoogleId(@PathVariable(value = "id") String googleId) throws Exception{
-		UserRecord userRecord = FirebaseAuth.getInstance().getUser(googleId);
+	@GetMapping("/google/{email}")
+	public ResponseEntity<Applicant> getApplicantByGoogleId(@PathVariable(value = "email") String email) throws Exception{
+		UserRecord userRecord = FirebaseAuth.getInstance().getUserByEmail(email);
 
 		Applicant applicant = applicantRepository.findByEmail(userRecord.getEmail())
-		          .orElseThrow(() -> new Exception("Applicant not found for this google id :: " + googleId));
+		          .orElseThrow(() -> new Exception("Applicant not found for this email :: " + email));
 		        return ResponseEntity.ok().body(applicant);
 	}
 	
