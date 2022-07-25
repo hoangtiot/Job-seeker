@@ -23,6 +23,7 @@ import com.google.firebase.auth.UserRecord;
 import com.google.firebase.auth.UserRecord.CreateRequest;
 import com.hoangdh.Jobseeker.model.Applicant;
 import com.hoangdh.Jobseeker.model.Job;
+import com.hoangdh.Jobseeker.model.Student;
 import com.hoangdh.Jobseeker.repository.ApplicantRepository;
 
 @CrossOrigin
@@ -68,21 +69,43 @@ public class ApplicantController {
 	}
 	
 	@GetMapping("/google/")
-	public ResponseEntity<List<Applicant>> getApplicantsByGoogleId(@RequestBody List<String> listEmail) throws Exception{
+	public ResponseEntity<List<Applicant>> getAllApplicantsByGoogle() throws Exception{
 		List<Applicant> list = (List<Applicant>) applicantRepository.findAll();
-		List<Applicant> result = null;
-		for (int i = 0; i < listEmail.size(); i++) {
-		  for (int j = 0; j < list.size(); j++) {
-			  if (list.get(j).getEmail()
-					  .equalsIgnoreCase(listEmail.get(i))) {
-				  result.add(list.get(i));
-			  };
-		  }
+//		List<Applicant> result = null;
+		
+		ListUsersPage page = FirebaseAuth.getInstance().listUsers(null);
+		for (ExportedUserRecord user : page.iterateAll()) {
+			for (int j = 0; j < list.size(); j++) {
+				  if (!list.get(j).getEmail()
+						  .equalsIgnoreCase(user.getEmail())) {
+					  Student student = new Student(user.getEmail().split("@")[0], user.getDisplayName(), "", "", list.get(j).getStudent().getSemester(), list.get(j).getStudent().getMajor(), 0);
+					  Applicant applicant = new Applicant(list.size() + 1, user.getPhoneNumber(), "", user.getEmail(), 0, student, null);
+					  applicantRepository.save(applicant);
+				  };
+			  }
 		}
+		list = (List<Applicant>) applicantRepository.findAll();
 		return ResponseEntity.ok()
-				.header("X-Total-Count", String.valueOf(result.size()))
-				.body(result);
+				.header("X-Total-Count", String.valueOf(list.size()))
+				.body(list);
 	}
+	
+//	@GetMapping("/google/")
+//	public ResponseEntity<List<Applicant>> getApplicantsByGoogleId(@RequestBody List<String> listEmail) throws Exception{
+//		List<Applicant> list = (List<Applicant>) applicantRepository.findAll();
+//		List<Applicant> result = null;
+//		for (int i = 0; i < listEmail.size(); i++) {
+//		  for (int j = 0; j < list.size(); j++) {
+//			  if (list.get(j).getEmail()
+//					  .equalsIgnoreCase(listEmail.get(i))) {
+//				  result.add(list.get(i));
+//			  };
+//		  }
+//		}
+//		return ResponseEntity.ok()
+//				.header("X-Total-Count", String.valueOf(result.size()))
+//				.body(result);
+//	}
 	
 	@GetMapping("/google/{email}")
 	public ResponseEntity<Applicant> getApplicantByGoogleId(@PathVariable(value = "email") String email) throws Exception{
@@ -102,6 +125,17 @@ public class ApplicantController {
 //			return ResponseEntity.status(409).body(null);
 //		}
 		return ResponseEntity.ok().body(applicant);
+	}
+	
+	@PutMapping(value = "/cv/{id}")
+	public ResponseEntity<Applicant> updateApplicantCV(@PathVariable(value = "id") int id, @RequestBody String src){
+		Applicant result = applicantRepository.findById(id).get();
+		if(result == null) {
+			return ResponseEntity.notFound().build();
+		}
+		result.setCvFile(src);
+		applicantRepository.save(result);
+		return ResponseEntity.ok().body(result);
 	}
 	
 	@PutMapping(value = "/update/{id}")

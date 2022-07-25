@@ -60,6 +60,21 @@ public class Applicant implements Serializable{
 	@Column(name = "cvFile")
 	private String cvFile;
 		
+	public Applicant () {
+		
+	}
+
+	public Applicant (int id, String phoneNumber, String address, String email, int status, Student student, List<Job> jobs) {
+		super();
+		this.id = id;
+		this.phoneNumber = phoneNumber;
+		this.address = address;
+		this.email = email;
+		this.status = status;
+		this.student = student;
+		this.jobs = jobs;
+	}
+	
 	public Semester getSemester() {
 		return semester;
 	}

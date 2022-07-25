@@ -61,12 +61,25 @@ public class ApplicationController {
 				.body(result);
 	}
 	
-	@GetMapping("/applicant/{applicantId}")
-	public ResponseEntity<List<Job>> getJobByApplicantId(@PathVariable(value = "applicantId") int applicantId) throws Exception{
-		List<Application> listApplication = applicationRepository.findByApplicantId(applicantId);
+//	@GetMapping("/applicant/{applicantId}")
+//	public ResponseEntity<List<Job>> getJobByApplicantId(@PathVariable(value = "applicantId") int applicantId) throws Exception{
+//		List<Application> listApplication = applicationRepository.findByApplicantId(applicantId);
+//		List<Job> result = new ArrayList<Job>();
+//		for (Application application : listApplication) {
+//			if (application.getApplicant().getId() == applicantId)
+//				result.add(application.getJob());
+//		}
+//		return ResponseEntity.ok()
+//				.header("X-Total-Count", String.valueOf(result.size()))
+//				.body(result);
+//	}
+	
+	@GetMapping("/applicant/{email}")
+	public ResponseEntity<List<Job>> getJobByApplicantEmail(@PathVariable(value = "email") String email) throws Exception{
+		List<Application> listApplication = applicationRepository.findByApplicantEmail(email);
 		List<Job> result = new ArrayList<Job>();
 		for (Application application : listApplication) {
-			if (application.getApplicant().getId() == applicantId)
+			if (application.getApplicant().getEmail() == email)
 				result.add(application.getJob());
 		}
 		return ResponseEntity.ok()

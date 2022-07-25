@@ -49,6 +49,21 @@ public class Student implements Serializable{
 	@Column(name ="Status")
 	private int status;
 	
+	public Student () {
+		
+	}
+	
+	public Student (String id, String name, String gender, String dob, Semester semester, Major major, int status) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.gender = gender;
+		this.DOB = dob;
+		this.semester = semester;
+		this.major = major;
+		this.status = status;
+	}
+	
 	public String getId() {
 		return id;
 	}

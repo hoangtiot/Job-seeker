@@ -14,7 +14,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
 	
 	List<Application> findByApplicantId(int applicantId);
 
-
+	List<Application> findByApplicantEmail(String email);
 	
 
 }
