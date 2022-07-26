@@ -64,7 +64,7 @@ public class Applicant implements Serializable{
 		
 	}
 
-	public Applicant (int id, String phoneNumber, String address, String email, int status, Student student, List<Job> jobs) {
+	public Applicant (int id, String phoneNumber, String address, String email, int status, Student student, List<Job> jobs, Semester semester, String cvFile) {
 		super();
 		this.id = id;
 		this.phoneNumber = phoneNumber;
@@ -73,6 +73,8 @@ public class Applicant implements Serializable{
 		this.status = status;
 		this.student = student;
 		this.jobs = jobs;
+		this.semester = semester;
+		this.cvFile = cvFile;
 	}
 	
 	public Semester getSemester() {

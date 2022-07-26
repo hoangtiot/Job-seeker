@@ -77,9 +77,26 @@ public class ApplicantController {
 		for (ExportedUserRecord user : page.iterateAll()) {
 			for (int j = 0; j < list.size(); j++) {
 				  if (!list.get(j).getEmail()
-						  .equalsIgnoreCase(user.getEmail())) {
-					  Student student = new Student(user.getEmail().split("@")[0], user.getDisplayName(), "", "", list.get(j).getStudent().getSemester(), list.get(j).getStudent().getMajor(), 0);
-					  Applicant applicant = new Applicant(list.size() + 1, user.getPhoneNumber(), "", user.getEmail(), 0, student, null);
+						  .equalsIgnoreCase(user.getEmail()) && !user.getEmail().equalsIgnoreCase("admin@fpt.admin.vn")) {
+					  Student student = new Student((
+							  user.getEmail().split("@")[0]).substring(user.getEmail().split("@")[0].length() - 8),
+							  user.getDisplayName(), 
+							  "", 
+							  "", 
+							  list.get(j).getStudent().getSemester(), 
+							  list.get(j).getStudent().getMajor(), 
+							  0);
+					  Applicant applicant = new Applicant(
+							  list.size() + 1, 
+//							  user.getPhoneNumber().replace("+84", "0"), 
+							  "012345678",
+							  "", 
+							  user.getEmail(), 
+							  0, 
+							  student,
+							  list.get(j).getJobs(),
+							  student.getSemester(),
+							  null);
 					  applicantRepository.save(applicant);
 				  };
 			  }
@@ -108,12 +125,11 @@ public class ApplicantController {
 //	}
 	
 	@GetMapping("/google/{email}")
-	public ResponseEntity<Applicant> getApplicantByGoogleId(@PathVariable(value = "email") String email) throws Exception{
+	public ResponseEntity<Applicant> getApplicantByGoogleEmail(@PathVariable(value = "email") String email) throws Exception{
 		UserRecord userRecord = FirebaseAuth.getInstance().getUserByEmail(email);
-
-		Applicant applicant = applicantRepository.findByEmail(userRecord.getEmail())
-		          .orElseThrow(() -> new Exception("Applicant not found for this email :: " + email));
-		        return ResponseEntity.ok().body(applicant);
+		Applicant applicant = applicantRepository.findByEmail(userRecord.getEmail());   
+		
+		return ResponseEntity.ok().body(applicant);
 	}
 	
 	@PostMapping(value = "/add")
@@ -127,9 +143,10 @@ public class ApplicantController {
 		return ResponseEntity.ok().body(applicant);
 	}
 	
-	@PutMapping(value = "/cv/{id}")
-	public ResponseEntity<Applicant> updateApplicantCV(@PathVariable(value = "id") int id, @RequestBody String src){
-		Applicant result = applicantRepository.findById(id).get();
+	@PutMapping(value = "/cv/{email}")
+	public ResponseEntity<Applicant> updateApplicantCV(@PathVariable(value = "email") String email, @RequestBody String src) throws FirebaseAuthException{
+		UserRecord userRecord = FirebaseAuth.getInstance().getUserByEmail(email);
+		Applicant result = applicantRepository.findByEmail(userRecord.getEmail());
 		if(result == null) {
 			return ResponseEntity.notFound().build();
 		}

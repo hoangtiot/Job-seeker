@@ -11,7 +11,7 @@ import com.hoangdh.Jobseeker.model.Applicant;
 @Repository
 public interface ApplicantRepository extends JpaRepository<Applicant, Integer> {
 
-	Optional<Applicant> findByEmail(String email);
+	Applicant findByEmail(String email);
 		
 	List<Applicant> findBySemesterId(String id);
 }
