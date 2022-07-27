@@ -24,6 +24,7 @@ import com.google.firebase.auth.UserRecord;
 import com.google.firebase.auth.UserRecord.CreateRequest;
 import com.hoangdh.Jobseeker.model.Applicant;
 import com.hoangdh.Jobseeker.model.Job;
+import com.hoangdh.Jobseeker.model.Semester;
 import com.hoangdh.Jobseeker.model.Student;
 import com.hoangdh.Jobseeker.repository.ApplicantRepository;
 import com.hoangdh.Jobseeker.repository.StudentRepository;
@@ -198,6 +199,18 @@ public class ApplicantController {
 			return ResponseEntity.notFound().build();
 		}
 		result.setCvFile(src);
+		applicantRepository.save(result);
+		return ResponseEntity.ok().body(result);
+	}
+	
+	@PutMapping(value = "/semester/{email}")
+	public ResponseEntity<Applicant> updateApplicantSemsester(@PathVariable(value = "email") String email, @RequestBody Semester semester) throws FirebaseAuthException{
+		
+		Applicant result = applicantRepository.findByEmail(email);
+		if(result == null) {
+			return ResponseEntity.notFound().build();
+		}
+		result.setSemester(semester);
 		applicantRepository.save(result);
 		return ResponseEntity.ok().body(result);
 	}
