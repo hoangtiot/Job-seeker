@@ -64,9 +64,9 @@ public class Applicant implements Serializable{
 		
 	}
 
-	public Applicant (int id, String phoneNumber, String address, String email, int status, Student student, List<Job> jobs, Semester semester, String cvFile) {
+	public Applicant (String phoneNumber, String address, String email, int status, Student student, List<Job> jobs, Semester semester, String cvFile) {
 		super();
-		this.id = id;
+		
 		this.phoneNumber = phoneNumber;
 		this.address = address;
 		this.email = email;

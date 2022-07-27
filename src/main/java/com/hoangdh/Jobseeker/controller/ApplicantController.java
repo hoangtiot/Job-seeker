@@ -1,7 +1,8 @@
 package com.hoangdh.Jobseeker.controller;
 
-import java.util.List;
+import java.util.*;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -68,50 +69,50 @@ public class ApplicantController {
 		        return ResponseEntity.ok().body(applicant);
 	}
 	
-	@GetMapping("/google/")
-	public ResponseEntity<List<Applicant>> getAllApplicantsByGoogle() throws Exception{
-		List<Applicant> list = (List<Applicant>) applicantRepository.findAll();
-//		List<Applicant> result = null;
-		boolean check = false;
-		ExportedUserRecord u = null;
-		ListUsersPage page = FirebaseAuth.getInstance().listUsers(null);
-		for (ExportedUserRecord user : page.iterateAll()) {
-			for (int j = 0; j < list.size(); j++) {
-				  if (!list.get(j).getEmail()
-						  .equalsIgnoreCase(user.getEmail()) && !user.getEmail().equalsIgnoreCase("admin@fpt.admin.vn")) {
-					  check = true;
-					  u = user;
-				  };
-			  }
-		}
-		
-		if (check) {
-			Student student = new Student((
-					  u.getEmail().split("@")[0]).substring(u.getEmail().split("@")[0].length() - 8),
-					  u.getDisplayName(), 
-					  "", 
-					  "", 
-					  list.get(0).getStudent().getSemester(), 
-					  list.get(0).getStudent().getMajor(), 
-					  0);
-			  Applicant applicant = new Applicant(
-					  (list.size() + 1), 
-//					  user.getPhoneNumber().replace("+84", "0"), 
-					  "012345678",
-					  "", 
-					  u.getEmail(), 
-					  0, 
-					  student,
-					  list.get(0).getJobs(),
-					  student.getSemester(),
-					  null);
-			  applicantRepository.save(applicant);
-		}
-		list = (List<Applicant>) applicantRepository.findAll();
-		return ResponseEntity.ok()
-				.header("X-Total-Count", String.valueOf(list.size()))
-				.body(list);
-	}
+//	@GetMapping("/google/")
+//	public ResponseEntity<List<Applicant>> getAllApplicantsByGoogle() throws Exception{
+//		List<Applicant> list = (List<Applicant>) applicantRepository.findAll();
+////		List<Applicant> result = null;
+//		boolean check = false;
+//		Applicant applicant = null;
+////		ExportedUserRecord u = null;
+//		ListUsersPage page = FirebaseAuth.getInstance().listUsers(null);
+//		for (ExportedUserRecord user : page.iterateAll()) {
+//			for (int j = 0; j < list.size(); j++) {
+//				  if (!list.get(j).getEmail()
+//						  .equalsIgnoreCase(user.getEmail()) && !user.getEmail().equalsIgnoreCase("admin@fpt.admin.vn")) {
+//					  check = true;
+//					  Student student = new Student((
+//							  user.getEmail().split("@")[0]).substring(user.getEmail().split("@")[0].length() - 8),
+//							  user.getDisplayName(), 
+//							  "", 
+//							  "", 
+//							  list.get(0).getStudent().getSemester(), 
+//							  list.get(0).getStudent().getMajor(), 
+//							  0);
+//					  applicant = new Applicant(
+//							  list.size(), 
+////							  user.getPhoneNumber().replace("+84", "0"), 
+//							  "012345678",
+//							  "", 
+//							  user.getEmail(), 
+//							  0, 
+//							  student,
+//							  list.get(0).getJobs(),
+//							  student.getSemester(),
+//							  null);
+//				  };
+//			  }
+//		}
+//		
+//		if (check) {
+//			  applicantRepository.save(applicant);
+//		}
+//		list = (List<Applicant>) applicantRepository.findAll();
+//		return ResponseEntity.ok()
+//				.header("X-Total-Count", String.valueOf(list.size()))
+//				.body(list);
+//	}
 	
 //	@GetMapping("/google/")
 //	public ResponseEntity<List<Applicant>> getApplicantsByGoogleId(@RequestBody List<String> listEmail) throws Exception{
@@ -136,6 +137,42 @@ public class ApplicantController {
 		Applicant applicant = applicantRepository.findByEmail(userRecord.getEmail());   
 		
 		return ResponseEntity.ok().body(applicant);
+	}
+	
+	@PostMapping("/google/{email}")
+	public ResponseEntity<Applicant> createApplicantByGoogleEmail(@PathVariable(value = "email") String email) throws Exception{
+		UserRecord user = FirebaseAuth.getInstance().getUserByEmail(email);
+		Applicant a = applicantRepository.findByEmail(email);
+		
+		if (a == null) {
+			Applicant temp = applicantRepository.findByEmail("dangnvhse161026@fpt.edu.vn");
+			
+			Student student = new Student((
+					  email.split("@")[0]).substring(email.split("@")[0].length() - 8),
+					  user.getDisplayName(), 
+					  "", 
+					  "", 
+					  temp.getStudent().getSemester(), 
+					  temp.getStudent().getMajor(), 
+					  0);
+			List<Job> lj = Collections.<Job>emptyList();
+			BeanUtils.copyProperties(temp.getJobs(), lj);
+			  a = new Applicant(
+//					  list.size(), 
+//					  user.getPhoneNumber().replace("+84", "0"), 
+					  "012345678",
+					  "", 
+					  email, 
+					  0, 
+					  student,
+					  lj,
+					  student.getSemester(),
+					  null);
+
+			applicantRepository.save(a);
+		}
+		
+		return ResponseEntity.ok().body(a);
 	}
 	
 	@PostMapping(value = "/add")
