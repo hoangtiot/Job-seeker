@@ -72,34 +72,40 @@ public class ApplicantController {
 	public ResponseEntity<List<Applicant>> getAllApplicantsByGoogle() throws Exception{
 		List<Applicant> list = (List<Applicant>) applicantRepository.findAll();
 //		List<Applicant> result = null;
-		
+		boolean check = false;
+		ExportedUserRecord u = null;
 		ListUsersPage page = FirebaseAuth.getInstance().listUsers(null);
 		for (ExportedUserRecord user : page.iterateAll()) {
 			for (int j = 0; j < list.size(); j++) {
 				  if (!list.get(j).getEmail()
 						  .equalsIgnoreCase(user.getEmail()) && !user.getEmail().equalsIgnoreCase("admin@fpt.admin.vn")) {
-					  Student student = new Student((
-							  user.getEmail().split("@")[0]).substring(user.getEmail().split("@")[0].length() - 8),
-							  user.getDisplayName(), 
-							  "", 
-							  "", 
-							  list.get(j).getStudent().getSemester(), 
-							  list.get(j).getStudent().getMajor(), 
-							  0);
-					  Applicant applicant = new Applicant(
-							  list.size() + 1, 
-//							  user.getPhoneNumber().replace("+84", "0"), 
-							  "012345678",
-							  "", 
-							  user.getEmail(), 
-							  0, 
-							  student,
-							  list.get(j).getJobs(),
-							  student.getSemester(),
-							  null);
-					  applicantRepository.save(applicant);
+					  check = true;
+					  u = user;
 				  };
 			  }
+		}
+		
+		if (check) {
+			Student student = new Student((
+					  u.getEmail().split("@")[0]).substring(u.getEmail().split("@")[0].length() - 8),
+					  u.getDisplayName(), 
+					  "", 
+					  "", 
+					  list.get(0).getStudent().getSemester(), 
+					  list.get(0).getStudent().getMajor(), 
+					  0);
+			  Applicant applicant = new Applicant(
+					  (list.size() + 1), 
+//					  user.getPhoneNumber().replace("+84", "0"), 
+					  "012345678",
+					  "", 
+					  u.getEmail(), 
+					  0, 
+					  student,
+					  list.get(0).getJobs(),
+					  student.getSemester(),
+					  null);
+			  applicantRepository.save(applicant);
 		}
 		list = (List<Applicant>) applicantRepository.findAll();
 		return ResponseEntity.ok()
