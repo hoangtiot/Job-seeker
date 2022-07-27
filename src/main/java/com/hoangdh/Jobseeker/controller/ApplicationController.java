@@ -23,6 +23,7 @@ import com.google.firebase.auth.UserRecord;
 import com.hoangdh.Jobseeker.model.Applicant;
 import com.hoangdh.Jobseeker.model.Application;
 import com.hoangdh.Jobseeker.model.Job;
+import com.hoangdh.Jobseeker.repository.ApplicantRepository;
 import com.hoangdh.Jobseeker.repository.ApplicationRepository;
 
 @CrossOrigin
@@ -32,6 +33,8 @@ public class ApplicationController {
 	
 	@Autowired
 	private ApplicationRepository applicationRepository;
+	@Autowired
+	private ApplicantRepository applicantRepository;
 	
 	@GetMapping("/")
 	public ResponseEntity<List<Application>> getAllApplications() throws FirebaseAuthException{
@@ -82,9 +85,9 @@ public class ApplicationController {
 				.body(listApplication);
 	}
 	
-	@PostMapping(value = "/add")
-	public ResponseEntity<Application> addApplication(@RequestBody Applicant applicant, @RequestBody Job job){
-		List<Application> listApplication = applicationRepository.findByApplicantId(applicant.getId());
+	@PostMapping(value = "/add/{applicantId}")
+	public ResponseEntity<Application> addApplication(@PathVariable(value = "applicantId") int applicantId, @RequestBody Job job){
+		List<Application> listApplication = applicationRepository.findByApplicantId(applicantId);
 		Application result;
 		for (Application application : listApplication) {
 			if(application.getJob().getId() == job.getId()) {
