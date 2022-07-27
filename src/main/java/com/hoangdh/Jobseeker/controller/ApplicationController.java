@@ -87,6 +87,7 @@ public class ApplicationController {
 	
 	@PostMapping(value = "/add/{applicantId}")
 	public ResponseEntity<Application> addApplication(@PathVariable(value = "applicantId") int applicantId, @RequestBody Job job){
+		Applicant applicant = applicantRepository.findById(applicantId).get();
 		List<Application> listApplication = applicationRepository.findByApplicantId(applicantId);
 		Application result;
 		for (Application application : listApplication) {
