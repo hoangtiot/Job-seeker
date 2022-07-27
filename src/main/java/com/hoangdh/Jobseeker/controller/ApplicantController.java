@@ -26,6 +26,7 @@ import com.hoangdh.Jobseeker.model.Applicant;
 import com.hoangdh.Jobseeker.model.Job;
 import com.hoangdh.Jobseeker.model.Student;
 import com.hoangdh.Jobseeker.repository.ApplicantRepository;
+import com.hoangdh.Jobseeker.repository.StudentRepository;
 
 @CrossOrigin
 @RestController
@@ -34,6 +35,8 @@ public class ApplicantController {
 	
 	@Autowired
 	private ApplicantRepository applicantRepository;
+	@Autowired
+	private StudentRepository studentRepository;
 	
 	@GetMapping("/")
 	public ResponseEntity<List<Applicant>> getAllApplicants(){
@@ -155,6 +158,7 @@ public class ApplicantController {
 					  temp.getStudent().getSemester(), 
 					  temp.getStudent().getMajor(), 
 					  0);
+			
 			List<Job> lj = Collections.<Job>emptyList();
 			BeanUtils.copyProperties(temp.getJobs(), lj);
 			  a = new Applicant(
@@ -168,7 +172,7 @@ public class ApplicantController {
 					  lj,
 					  student.getSemester(),
 					  null);
-
+			  studentRepository.save(student);
 			applicantRepository.save(a);
 		}
 		
