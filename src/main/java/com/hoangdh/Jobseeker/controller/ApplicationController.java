@@ -90,12 +90,23 @@ public class ApplicationController {
 		Applicant applicant = applicantRepository.findById(applicantId).get();
 		List<Application> listApplication = applicationRepository.findByApplicantId(applicantId);
 		Application result;
-		for (Application application : listApplication) {
-			if(application.getJob().getId() == job.getId()) {
-				return ResponseEntity.status(409).body(null);
-			}
-		}
+//		for (Application application : listApplication) {
+//			if(application.getJob().getId() == job.getId()) {
+//				return ResponseEntity.status(409).body(null);
+//			}
+//		}
 		result = new Application((int) (applicationRepository.count() + 1), 0, job, applicant);
+		applicationRepository.save(result);
+		return ResponseEntity.ok().body(result);
+	}
+	
+	@PutMapping(value = "/status/{id}")
+	public ResponseEntity<Application> updateApplicationStatus(@PathVariable(value = "id") int id, @RequestBody int status){
+		Application result = applicationRepository.findById(id).get();
+		if(result == null) {
+			return ResponseEntity.notFound().build();
+		}
+		result.setStatus(status);
 		applicationRepository.save(result);
 		return ResponseEntity.ok().body(result);
 	}
