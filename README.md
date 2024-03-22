@@ -49,6 +49,6 @@ Access the application in your web browser at http://localhost:8084.
 
 ## :handshake: Contact
 
-hoangtiot - [@twitter_handle](https://www.linkedin.com/in/hoangdh1262/) - dohuyhoang1120@gmail.com
+hoangtiot - [Linkedin](https://www.linkedin.com/in/hoangdh1262/) - dohuyhoang1120@gmail.com
 
 Project Link: [https://github.com/hoangtiot/Job-seeker](https://github.com/hoangtiot/Job-seeker)
